@@ -22,12 +22,12 @@ CREATE TABLE products (
 );
 
 CREATE TABLE orders (
-    order_id    BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    customer_id BIGINT UNSIGNED NOT NULL,
-    product_id  BIGINT UNSIGNED NOT NULL,
-    quantity    INT UNSIGNED    NOT NULL,
-    order_date  DATETIME        DEFAULT CURRENT_TIMESTAMP,
-    status      VARCHAR(20)     NOT NULL DEFAULT 'PENDING',
+    order_id        BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    customer_id     BIGINT UNSIGNED NOT NULL,
+    product_id      BIGINT UNSIGNED NOT NULL,
+    quantity        INT UNSIGNED    NOT NULL,
+    order_date      DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    status_quantity VARCHAR(20)     NOT NULL DEFAULT 'PENDING',
     CONSTRAINT  fk_orders_customers FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE,
-    CONSTRAINT  fk_orders_products FOREIGN KEY (product_id) REFERENCES products(product_id)
+    CONSTRAINT  fk_orders_products  FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
