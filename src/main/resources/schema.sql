@@ -14,11 +14,11 @@ CREATE TABLE customers (
 );
 
 CREATE TABLE products (
-    product_id  BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    name        VARCHAR(100)    NOT NULL,
-    description TEXT,
-    price       DECIMAL(10, 2)  NOT NULL,
-    stock       INT UNSIGNED    NOT NULL DEFAULT 0
+    product_id      BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    name            VARCHAR(100)    NOT NULL,
+    description     TEXT,
+    price           DECIMAL(10, 2)  NOT NULL,
+    stock_quantity  INT UNSIGNED    NOT NULL DEFAULT 0
 );
 
 CREATE TABLE orders (
@@ -27,7 +27,7 @@ CREATE TABLE orders (
     product_id      BIGINT UNSIGNED NOT NULL,
     quantity        INT UNSIGNED    NOT NULL,
     order_date      DATETIME        DEFAULT CURRENT_TIMESTAMP,
-    status_quantity VARCHAR(20)     NOT NULL DEFAULT 'PENDING',
+    status VARCHAR(20)     NOT NULL DEFAULT 'PENDING',
     CONSTRAINT  fk_orders_customers FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE,
     CONSTRAINT  fk_orders_products  FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
