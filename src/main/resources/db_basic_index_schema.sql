@@ -60,3 +60,40 @@ INSERT INTO items (item_id, seller_id, item_name, category, price, stock_quantit
 (23, 1, '휴대용 빔 프로젝터', '전자기기', 350000, 70, '2023-02-01', TRUE),
 (24, 2, '게이밍 의자', '전자기기', 200000, 90, '2022-07-20', TRUE),
 (25, 3, '세계사 탐험', '도서', 22000, 350, '2021-02-28', FALSE);
+
+SET SESSION cte_max_recursion_depth = 11000000;
+
+-- 2. 이제 다시 데이터를 입력합니다.
+INSERT INTO sellers (seller_name, registered_date)
+WITH RECURSIVE row_generator AS (
+    SELECT 11 AS id
+    UNION ALL
+    SELECT id + 1 FROM row_generator WHERE id < 5000000
+)
+SELECT
+    CONCAT(id),
+    DATE_ADD('2024-01-01', INTERVAL (id % 700) DAY)
+FROM row_generator;
+
+-- 2. 상품 데이터 백만 개 삽입
+INSERT INTO items (seller_id, item_name, category, price, stock_quantity, registered_date, is_active)
+WITH RECURSIVE item_gen AS (
+    -- 기존 데이터 25번 이후인 26번부터 시작
+    SELECT 26 AS id
+    UNION ALL
+    SELECT id + 1 FROM item_gen WHERE id < 3000000
+)
+SELECT
+    FLOOR(1 + RAND() * 5000000),
+    CONCAT(id),
+    -- 5개 카테고리 중 랜덤 선택
+    ELT(FLOOR(1 + RAND() * 5), '전자기기', '도서', '생활용품', '패션', '헬스/뷰티'),
+    -- 5,000원 ~ 500,000원 사이 랜덤 가격
+    FLOOR(50 * (100 + RAND() * 9900)),
+    -- 0 ~ 999개 사이 랜덤 재고
+    FLOOR(RAND() * 1000),
+    -- 2022년부터 2025년 사이 랜덤 날짜
+    DATE_ADD('2022-01-01', INTERVAL FLOOR(RAND() * 1400) DAY),
+    -- 80% 확률로 활성화(TRUE), 20% 확률로 비활성화(FALSE)
+    IF(RAND() > 0.2, TRUE, FALSE)
+FROM item_gen;
