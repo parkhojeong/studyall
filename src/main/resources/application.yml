@@ -9,7 +9,7 @@ spring:
   sql:
     init:
       mode: always
-      schema-locations: classpath:db_basic_index_schema.sql
+      schema-locations: classpath:db_design1_schema.sql
   jpa:
     hibernate:
       ddl-auto: none
