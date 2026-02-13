@@ -1,6 +1,7 @@
 package hellojpa;
 
 import jakarta.persistence.*;
+import jpabook.jpashop.domain.Delivery;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 
@@ -20,8 +21,12 @@ public class JpaMain {
             member.setName("member1");
             em.persist(member);
 //
+            Delivery delivery = new Delivery();
+            em.persist(delivery);
+
             Order order = new Order();
             order.setMember(member);
+            order.setDelivery(delivery);
             em.persist(order);
 
             System.out.println("======");
