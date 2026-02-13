@@ -8,6 +8,9 @@ public class Delivery {
     @Column(name = "delivery_id")
     private Long id;
 
+    @Embedded
+    private Address address;
+
     public void setId(Long id) {
         this.id = id;
     }
